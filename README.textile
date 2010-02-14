@@ -2,4 +2,6 @@ h1. ReadItLater API Library for Ruby
 
 p. Please see sample_usage.rb for examples of use.
 
+p. For details on the ReadItLater API see http://readitlaterlist.com/api/docs/
 
+p. For details on what is ReadItLater see http://readitlaterlist.com/
