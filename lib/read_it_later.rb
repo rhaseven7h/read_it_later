@@ -64,7 +64,7 @@ class ReadItLater
     response = query(:get, user, params)
     response[:data] = stringify_keys(JSON.parse(response[:text]))
     response[:data][:since] = Time.at(response[:data][:since])
-    response[:data][:status] = response[:data][:status].strip == "1" ? :normal : :no_changes 
+    response[:data][:status] = response[:data][:status] == 1 ? :normal : :no_changes 
     response[:data][:list] = response[:data][:list].map{|k,v|v.merge(:time_added => Time.at(v[:time_added].to_i), :time_updated => Time.at(v[:time_updated].to_i), :item_id => v[:item_id].to_i, :read => (v[:state].strip == "0")).delete_if{|k,v|k==:state}} 
     @last_response = response
   end
@@ -95,24 +95,32 @@ class ReadItLater
 
   def query(method, user, params={})
     response = nil
-    open(ril_api_url(method, user, params)) do |f|
-      response = {
-        :text => f.read.strip,
-        :status => f.meta["status"].split[0].strip.to_i,
-        :user => {
-          :limit     => (f.meta["x-limit-user-limit"    ] || "-1").to_i,
-          :remaining => (f.meta["x-limit-user-remaining"] || "-1").to_i,
-          :reset     => (f.meta["x-limit-user-reset"    ] || "-1").to_i
-        },
-        :key => {
-          :limit     => (f.meta["x-limit-key-limit"     ] || "-1").to_i,
-          :remaining => (f.meta["x-limit-key-remaining" ] || "-1").to_i,
-          :reset     => (f.meta["x-limit-key-reset"     ] || "-1").to_i
-        },
-        :error => f.meta["x-error"]
-      }
+    begin
+      open(ril_api_url(method, user, params)) do |f|
+        response = build_response(f)
+      end
+    rescue OpenURI::HTTPError => e
+      response = build_response(e.io)
     end
     return response
+  end
+  
+  def build_response(io_object)
+    return {
+      :text => io_object.read.strip,
+      :status => io_object.meta["status"].split[0].strip.to_i,
+      :user => {
+        :limit     => (io_object.meta["x-limit-user-limit"    ] || "-1").to_i,
+        :remaining => (io_object.meta["x-limit-user-remaining"] || "-1").to_i,
+        :reset     => (io_object.meta["x-limit-user-reset"    ] || "-1").to_i
+      },
+      :key => {
+        :limit     => (io_object.meta["x-limit-key-limit"     ] || "-1").to_i,
+        :remaining => (io_object.meta["x-limit-key-remaining" ] || "-1").to_i,
+        :reset     => (io_object.meta["x-limit-key-reset"     ] || "-1").to_i
+      },
+      :error => io_object.meta["x-error"]
+    }    
   end
   
   def stringify_keys(hsh)

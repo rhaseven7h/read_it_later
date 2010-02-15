@@ -48,6 +48,29 @@ When /^I send a statistics request$/ do
   @response = @ril.stats(@usr)
 end
 
+When /^I send a request for a list of "([^\"]*)" "([^\"]*)" Read It Later bookmarks for page "([^\"]*)", which are "([^\"]*)", since "([^\"]*)", with tags "([^\"]*)"$/ do |count, state, page, mine_only, since, tags|
+  params = {}
+  params[:state] = state.to_sym unless state.empty? if state
+  params[:count] = count.to_i unless count.empty? if count
+  params[:page] = page.to_i unless page.empty? if page
+  params[:mine_only] = eval(mine_only) unless mine_only.empty? if mine_only
+  params[:tags] = eval(tags) unless tags.empty? if tags
+  params[:since] = Time.parse(since) unless since.empty? if since
+  @response = @ril.get(@usr, params)
+end
+
+When /^I authenticate an existing user$/ do
+  @response = @ril.auth(@usr)
+end
+
+When /^I send an API bookmarks list statistics request$/ do
+  @response = @ril.api
+end
+
+When /^I sign up a new user$/ do
+  @response = @ril.api
+end
+
 Then /^I should get back a success response from RIL server$/ do
   @response[:status].should == ReadItLater::STATUS_SUCCESS
 end
@@ -66,4 +89,13 @@ Then /^I should receive statistics of usage$/ do
   @response[:data].has_key?(:count_read).should be_true
   @response[:data].has_key?(:count_list).should be_true
 end
+
+Then /^I should receive data about the list of bookmarks$/ do
+  @response.should have_key(:data)
+end
+
+Then /^I should receive a list of bookmarks, although it can be empty$/ do
+  @response[:data].should have_key(:list)
+end
+
 
