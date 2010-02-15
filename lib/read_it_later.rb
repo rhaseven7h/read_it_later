@@ -24,7 +24,7 @@ class ReadItLater
   
   class User
     attr_accessor :username, :password
-    def initialize(username, password)
+    def initialize(username=nil, password=nil)
       @username, @password, @last_response = username, password, ""
     end
   end
@@ -86,7 +86,6 @@ class ReadItLater
   def ril_api_url(method, user, params={})
     params = { :apikey => @api_key, :username => user.username, :password => user.password }.merge(params)
     query_str = URLS[method] + "?" + params.map{|k,v| "#{k.to_s}=#{URI.escape(v.to_s)}" }.join("&")
-    puts "="*50+"\n#{query_str}\n"+"="*50+"\n\n"
     return query_str
   end
   
