@@ -28,6 +28,9 @@ Gem::Specification.new do |s|
      "features/step_definitions/read_it_later_user_steps.rb",
      "features/support/env.rb",
      "lib/read_it_later.rb",
+     "pkg/read_it_later-0.2.1.gem",
+     "read_it_later-0.2.0.gem",
+     "read_it_later-0.2.1.gem",
      "read_it_later.gemspec",
      "sample_usage.rb"
   ]
