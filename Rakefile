@@ -7,6 +7,7 @@ begin
     gemspec.email = "rha7.com@gmail.com"
     gemspec.homepage = "http://github.com/rha7dotcom/read_it_later"
     gemspec.authors = ["Gabriel Medina"]
+    gemspec.add_dependency('json')
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
