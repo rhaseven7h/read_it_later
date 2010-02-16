@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".gitignore",
      "README.textile",
+     "Rakefile",
      "VERSION",
      "config/cucumber.yml",
      "config/test.yml.dist",
@@ -27,6 +28,7 @@ Gem::Specification.new do |s|
      "features/step_definitions/read_it_later_user_steps.rb",
      "features/support/env.rb",
      "lib/read_it_later.rb",
+     "read_it_later.gemspec",
      "sample_usage.rb"
   ]
   s.homepage = %q{http://github.com/rha7dotcom/read_it_later}
