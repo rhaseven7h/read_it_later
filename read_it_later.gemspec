@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{read_it_later}
-  s.version = "0.2.2"
+  s.version = "0.2.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Gabriel Medina"]
-  s.date = %q{2010-02-15}
+  s.date = %q{2010-02-18}
   s.description = %q{A very simple one-to-one api library for Read It Later API}
   s.email = %q{rha7.com@gmail.com}
   s.extra_rdoc_files = [
