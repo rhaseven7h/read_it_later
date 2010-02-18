@@ -87,6 +87,7 @@ class ReadItLater
   # The params hash is built as described in http://readitlaterlist.com/api/docs/#send, but in ruby a Ruby Hash.
   # Example:
   #
+  #<pre><code>
   # params = {
   #    :new => [
   #      { :url => "http://www.url1.com/", :title => "URL New 1" },
@@ -109,6 +110,7 @@ class ReadItLater
   #      { :url => "http://www.url3.com/", :tags => "url3tag1, url3tag2, url3tag3" }
   #    ]
   # }
+  # </code></pre>
   #
   # @param [ReadItLater::User] user The ReadItLater::User instance representing the user
   # @param [Hash] params The changes to be sent as described in http://readitlaterlist.com/api/docs/#send, in Ruby hash format
