@@ -82,7 +82,6 @@ class ReadItLater
   # @param [Integer] status is a numeric code corresponding to the STATUS_* constants.
   # @param [String] text is the text as received from the server.
   # @param [String] error is the error message sent from the server (if there was an error, nil otherwise).
-  # @param [Hash] key contains the limit of requests you can make per hour, remaining calls and seconds until counters reset.
   # @param [Hash] key contains the limit of requests this API key can make per hour, remaining calls and seconds until counters reset.
   # @param [Hash] user contains the limit of requests this user can make per hour, remaining calls and seconds until counters reset.
   #
@@ -99,7 +98,7 @@ class ReadItLater
   #
   # @param [ReadItLater::User] user The ReadItLater::User instance representing the user
   # @param [String] url The URL string to be added to the bookmark list
-  # @return [Hash] See last_response.
+  # @return [Hash] See @last_response.
   def add(user, url)
     @last_response = query(:add, user, :url => url)
   end
@@ -133,7 +132,7 @@ class ReadItLater
   #
   # @param [ReadItLater::User] user The ReadItLater::User instance representing the user
   # @param [Hash] params The changes to be sent as described in http://readitlaterlist.com/api/docs/#send, in Ruby hash format
-  # @return [Hash] See last_response.
+  # @return [Hash] See @last_response.
   def send(user, params)
     %w(new read update_title update_tags).map(&:to_sym).each do |param|
       params[param] = URI.escape((0..params[param].size-1).to_a.map{|n|{n.to_s=>params[param][n]}}.inject(){|a,b|a.merge(b)}.to_json) if params[param]
@@ -152,7 +151,7 @@ class ReadItLater
   #     :count_read=>"168"},
   #
   # @param [ReadItLater::User] user The ReadItLater::User instance representing the user
-  # @return [Hash] See last_response.
+  # @return [Hash] See @last_response.
   def stats(user)
     response = query(:stats, user, :format => "json")
     response[:data] = stringify_keys(JSON.parse(response[:text]))
@@ -171,7 +170,7 @@ class ReadItLater
   #
   # @param [ReadItLater::User] user The ReadItLater::User instance representing the user
   # @param [Hash] call_params The specifics of the data to be retrieved.
-  # @return [Hash] See last_response.
+  # @return [Hash] See @last_response.
   def get(user, call_params)
     params = { :format => "json" }
     params[:state] = call_params[:state].to_s.strip if call_params[:state]
@@ -191,7 +190,7 @@ class ReadItLater
   # Authenticate a user.
   #  
   # @param [ReadItLater::User] user User to authenticate.
-  # @return [Hash] See last_response.
+  # @return [Hash] See @last_response.
   def auth(user)
     @last_reponse = query(:auth, user)
   end
@@ -199,14 +198,14 @@ class ReadItLater
   # Sign up a new user.
   #  
   # @param [ReadItLater::User] user User to sign up.
-  # @return [Hash] See last_response.
+  # @return [Hash] See @last_response.
   def signup(user)
     @last_reponse = query(:signup, user)
   end
   
   # API Key usage information.
   #
-  # @return [Hash] See last_response.
+  # @return [Hash] See @last_response.
   def api
     @last_response = query(:api, User.new('',''))
   end
