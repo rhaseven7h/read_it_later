@@ -119,6 +119,10 @@ class ReadItLater
     @last_response = query(:send, user, params)
   end
   
+
+  # Returns statistics on usage of bookmarks, number of bookmarks added, etc.
+  #
+  # @param [ReadItLater::User] user The ReadItLater::User instance representing the user
   def stats(user)
     response = query(:stats, user, :format => "json")
     response[:data] = stringify_keys(JSON.parse(response[:text]))
@@ -126,6 +130,10 @@ class ReadItLater
     @last_response = response
   end
   
+  # Gets a list of bookmarks according to call parameters
+  # 
+  #
+  # @param [Hash] call_params The specifics of the data to be retrieved.
   def get(user, call_params)
     params = { :format => "json" }
     params[:state] = call_params[:state].to_s.strip if call_params[:state]
