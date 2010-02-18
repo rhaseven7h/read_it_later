@@ -1,2 +1,3 @@
 config/test.yml
 read_it_later-*.gem
+pkg/**/*
