@@ -1,3 +1,5 @@
 h1. ReadItLater API Library for Ruby
 
-See the "Wiki":http://wiki.github.com/rha7dotcom/read_it_later/
+p. This is an implementation of the API for the Firefox extension "Read It Later":http://readitlaterlist.com
+
+p. See the "Wiki":http://wiki.github.com/rha7dotcom/read_it_later/
