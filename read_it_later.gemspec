@@ -28,8 +28,7 @@ Gem::Specification.new do |s|
      "features/step_definitions/read_it_later_user_steps.rb",
      "features/support/env.rb",
      "lib/read_it_later.rb",
-     "read_it_later.gemspec",
-     "sample_usage.rb"
+     "read_it_later.gemspec"
   ]
   s.homepage = %q{http://github.com/rha7dotcom/read_it_later}
   s.rdoc_options = ["--charset=UTF-8"]
