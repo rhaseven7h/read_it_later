@@ -1,15 +1,39 @@
+# The ReadItLater class is a Ruby implementation
+# of the API provided by readitlaterlist.com
+# It's pretty much a one-to-one method-by-method
+# implementation in ruby.
+
+# Author::    Gabriel Medina  (mailto:rha7.com@gmail.com)
+# Copyright:: Copyright (c) 2010 Gabriel Medina
+# License::   LGPL
+
 require 'open-uri'
 require 'json'
 
+# This is the main class for the ReadItLater library,
+# it allows you to interact with the service.
 class ReadItLater
   
+  # For responses status code indicating success.
   STATUS_SUCCESS     = 200
+
+  # For responses status code indicating invalid request (wrong arguments).
   STATUS_INVALID     = 400
+
+  # For responses status code indicating denied access (usually, login/pass wrong).
   STATUS_DENIED      = 401
+
+  # For responses status code indicating access rate exceeded, wait a few minutes before trying again,
+  # or issue a 'stat' or 'api' method calls to see more details.
   STATUS_EXCEEDED    = 403
+
+  # For responses status code indicating the service is down for maintenance.
   STATUS_MAINTENANCE = 503
   
+  # The readitlaterlist.com base URL for requests via http.
   URL_BASE = 'https://readitlaterlist.com/v2'
+  
+  # The specific URLs for methods, with http base URL_BASE
   URLS = {
     :add    => ReadItLater::URL_BASE+'/add'   ,
     :send   => ReadItLater::URL_BASE+'/send'  ,
@@ -20,21 +44,41 @@ class ReadItLater
     :api    => ReadItLater::URL_BASE+'/api'   
   }
 
+  # Holds the response to the last request/method call.
   attr_reader :last_response
   
+  # Inner class to ReadItLater to hold user details
   class User
-    attr_accessor :username, :password
+    
+    # User name for User object
+    attr_accessor :username
+    
+    # Password for User object
+    attr_accessor :password
+    
+    # Create a new ReadItLater::User object, to be used in subsequent calls.
+    #
+    # @param [String] The user name for this instance
+    # @param [String] The password for this instance
     def initialize(username=nil, password=nil)
       @username, @password, @last_response = username, password, ""
     end
   end
   
+  # Holds the api_key assigned to this ReadItLater instance
   attr_accessor :api_key
   
+  # Create a new ReadItLater instance
+  #
+  # @param [String] Must be the API key generated from the readitlaterlist.com
   def initialize(api_key)
     @api_key = api_key
   end
   
+  # Add a new URL to a User bookmarks list
+  #
+  # @param [ReadItLater::User] The ReadItLater::User instance representing the user
+  # @param [String] The URL string to be added to the bookmark list
   def add(user, url)
     @last_response = query(:add, user, :url => url)
   end
