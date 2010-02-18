@@ -1,16 +1,3 @@
 h1. ReadItLater API Library for Ruby
 
-p. Please see sample_usage.rb for examples of use.
-
-p. For details on the ReadItLater API see http://readitlaterlist.com/api/docs/
-
-p. For details on what is ReadItLater see http://readitlaterlist.com/
-
-p. NEW: Has been deployed to gemcutter as a gem, you can install it like this:
-
-<pre><code>sudo gem install read_it_later</code></pre>
-
-p. And that's it, then just require it from you Ruby programs.
-
-
-
+See the "Wiki":http://wiki.github.com/rha7dotcom/read_it_later/
