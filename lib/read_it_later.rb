@@ -87,30 +87,28 @@ class ReadItLater
   # The params hash is built as described in http://readitlaterlist.com/api/docs/#send, but in ruby a Ruby Hash.
   # Example:
   #
-  #<pre><code>
-  # params = {
-  #    :new => [
-  #      { :url => "http://www.url1.com/", :title => "URL New 1" },
-  #      { :url => "http://www.url2.com/", :title => "URL New 2" },
-  #      { :url => "http://www.url3.com/", :title => "URL New 3" }
-  #    ],
-  #    :read => [
-  #        { :url => "http://www.url1.com/" },
-  #        { :url => "http://www.url2.com/" },
-  #        { :url => "http://www.url3.com/" }
-  #    ],
-  #    :update_title => [
-  #      { :url => "http://www.url1.com/", :title => "Updated URL New 1" },
-  #      { :url => "http://www.url2.com/", :title => "Updated URL New 2" },
-  #      { :url => "http://www.url3.com/", :title => "Updated URL New 3" }
-  #    ],
-  #    :update_tags => [
-  #      { :url => "http://www.url1.com/", :tags => "url1tag1, url1tag2, url1tag3" },
-  #      { :url => "http://www.url2.com/", :tags => "url2tag1, url2tag2, url2tag3" },
-  #      { :url => "http://www.url3.com/", :tags => "url3tag1, url3tag2, url3tag3" }
-  #    ]
-  # }
-  # </code></pre>
+  #   params = {
+  #      :new => [
+  #        { :url => "http://www.url1.com/", :title => "URL New 1" },
+  #        { :url => "http://www.url2.com/", :title => "URL New 2" },
+  #        { :url => "http://www.url3.com/", :title => "URL New 3" }
+  #      ],
+  #      :read => [
+  #          { :url => "http://www.url1.com/" },
+  #          { :url => "http://www.url2.com/" },
+  #          { :url => "http://www.url3.com/" }
+  #      ],
+  #      :update_title => [
+  #        { :url => "http://www.url1.com/", :title => "Updated URL New 1" },
+  #        { :url => "http://www.url2.com/", :title => "Updated URL New 2" },
+  #        { :url => "http://www.url3.com/", :title => "Updated URL New 3" }
+  #      ],
+  #      :update_tags => [
+  #        { :url => "http://www.url1.com/", :tags => "url1tag1, url1tag2, url1tag3" },
+  #        { :url => "http://www.url2.com/", :tags => "url2tag1, url2tag2, url2tag3" },
+  #        { :url => "http://www.url3.com/", :tags => "url3tag1, url3tag2, url3tag3" }
+  #      ]
+  #   }
   #
   # @param [ReadItLater::User] user The ReadItLater::User instance representing the user
   # @param [Hash] params The changes to be sent as described in http://readitlaterlist.com/api/docs/#send, in Ruby hash format
