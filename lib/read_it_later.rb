@@ -58,8 +58,8 @@ class ReadItLater
     
     # Create a new ReadItLater::User object, to be used in subsequent calls.
     #
-    # @param [String] The user name for this instance
-    # @param [String] The password for this instance
+    # @param [String] username The user name for this instance
+    # @param [String] password The password for this instance
     def initialize(username=nil, password=nil)
       @username, @password, @last_response = username, password, ""
     end
@@ -70,15 +70,15 @@ class ReadItLater
   
   # Create a new ReadItLater instance
   #
-  # @param [String] Must be the API key generated from the readitlaterlist.com
+  # @param [String] api_key Must be the API key generated from the readitlaterlist.com
   def initialize(api_key)
     @api_key = api_key
   end
   
   # Add a new URL to a User bookmarks list
   #
-  # @param [ReadItLater::User] The ReadItLater::User instance representing the user
-  # @param [String] The URL string to be added to the bookmark list
+  # @param [ReadItLater::User] user The ReadItLater::User instance representing the user
+  # @param [String] url The URL string to be added to the bookmark list
   def add(user, url)
     @last_response = query(:add, user, :url => url)
   end
