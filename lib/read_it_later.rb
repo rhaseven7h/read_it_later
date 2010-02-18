@@ -12,6 +12,12 @@ require 'json'
 
 # This is the main class for the ReadItLater library,
 # it allows you to interact with the service.
+# Typical usage is as follows:
+#
+#   usr = ReadItLater::User.new('username', 'password')
+#   ril = ReadItLater.new('YOUR API KEY HERE')
+#   res = ril.add(usr, 'http://www.google.com/') # { :status => 200, :text => "200 OK", ... }
+#
 class ReadItLater
   
   # For responses status code indicating success.
