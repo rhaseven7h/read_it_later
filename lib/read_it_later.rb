@@ -40,15 +40,7 @@ class ReadItLater
   URL_BASE = 'https://readitlaterlist.com/v2'
   
   # The specific URLs for methods, with http base URL_BASE
-  URLS = {
-    :add    => ReadItLater::URL_BASE+'/add'   ,
-    :send   => ReadItLater::URL_BASE+'/send'  ,
-    :stats  => ReadItLater::URL_BASE+'/stats' ,
-    :get    => ReadItLater::URL_BASE+'/get'   ,
-    :auth   => ReadItLater::URL_BASE+'/auth'  ,
-    :signup => ReadItLater::URL_BASE+'/signup',
-    :api    => ReadItLater::URL_BASE+'/api'   
-  }
+  URLS = %w(add send stats get auth signup api).map { |e| { e.to_sym => File.join(ReadItLater::URL_BASE, e) } }.inject({}){|i,j|i.merge(j)}
 
   # Holds the response to the last request/method call.
   attr_reader :last_response
@@ -180,11 +172,12 @@ class ReadItLater
   def get(user, call_params)
     params = { :format => "json" }
     params[:state] = call_params[:state].to_s.strip if call_params[:state]
-    params[:myAppOnly] = (call_params[:mine_only] ? "1" : "0") if call_params[:mine_only]
+    %w(myAppOnly tags).map(&:to_sym).each do |field|
+      params[field] = (call_params[field] ? "1" : "0") if call_params[field]
+    end
     params[:since] = call_params[:since].to_i if call_params[:since]
     params[:count] = call_params[:count] if call_params[:count]
     params[:page] = call_params[:page] if call_params[:page]
-    params[:tags] = (call_params[:tags] ? "1" : "0") if call_params[:tags]
     response = query(:get, user, params)
     response[:data] = stringify_keys(JSON.parse(response[:text]))
     response[:data][:since] = Time.at(response[:data][:since])
@@ -241,19 +234,13 @@ class ReadItLater
   end
   
   def build_response(io_object)
+    limits = %w(limit remaining reset)
+    build_limits = lambda { |limit_type| limits.map{ |attrib| { attrib.to_sym => (io_object.meta["x-limit-"+limit_type.to_s+"-"+attrib ] || "-1").to_i } }.inject{ |i,j| i.merge(j) } }
     return {
       :text => io_object.read.strip,
       :status => io_object.meta["status"].split[0].strip.to_i,
-      :user => {
-        :limit     => (io_object.meta["x-limit-user-limit"    ] || "-1").to_i,
-        :remaining => (io_object.meta["x-limit-user-remaining"] || "-1").to_i,
-        :reset     => (io_object.meta["x-limit-user-reset"    ] || "-1").to_i
-      },
-      :key => {
-        :limit     => (io_object.meta["x-limit-key-limit"     ] || "-1").to_i,
-        :remaining => (io_object.meta["x-limit-key-remaining" ] || "-1").to_i,
-        :reset     => (io_object.meta["x-limit-key-reset"     ] || "-1").to_i
-      },
+      :user => build_limits.call(:user),
+      :key => build_limits.call(:key),
       :error => io_object.meta["x-error"]
     }    
   end
