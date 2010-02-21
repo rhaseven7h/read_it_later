@@ -171,13 +171,18 @@ class ReadItLater
   # @return [Hash] See @last_response.
   def get(user, call_params)
     params = { :format => "json" }
-    params[:state] = call_params[:state].to_s.strip if call_params[:state]
-    %w(myAppOnly tags).map(&:to_sym).each do |field|
-      params[field] = (call_params[field] ? "1" : "0") if call_params[field]
+    %w(state myAppOnly tags since count page).map(&:to_sym).each do |field|
+      params[field] = case field
+        when :myAppOnly, :tags
+          (call_params[field] ? "1" : "0")
+        when :state
+          call_params[field].to_s.strip
+        when :since
+          call_params[field].to_i
+        else
+          call_params[field]
+      end if call_params[field]
     end
-    params[:since] = call_params[:since].to_i if call_params[:since]
-    params[:count] = call_params[:count] if call_params[:count]
-    params[:page] = call_params[:page] if call_params[:page]
     response = query(:get, user, params)
     response[:data] = stringify_keys(JSON.parse(response[:text]))
     response[:data][:since] = Time.at(response[:data][:since])
