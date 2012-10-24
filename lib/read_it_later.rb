@@ -133,7 +133,7 @@ class ReadItLater
   # @return [Hash] See @last_response.
   def send(user, params)
     %w(new read update_title update_tags).map(&:to_sym).each do |param|
-      params[param] = URI.escape((0..params[param].size-1).to_a.map{|n|{n.to_s=>params[param][n]}}.inject(){|a,b|a.merge(b)}.to_json) if params[param]
+      params[param] = (0..params[param].size-1).to_a.map{|n|{n.to_s=>params[param][n]}}.inject(){|a,b|a.merge(b)}.to_json if params[param]
     end
     @last_response = query(:send, user, params)
   end
